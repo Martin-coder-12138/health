@@ -5,8 +5,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.itheima.dao.CheckItemDao;
 import com.itheima.pojo.CheckItem;
-import com.itheima.pojo.PageResult;
+import com.itheima.entity.PageResult;
 import com.itheima.service.CheckItemService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service(interfaceClass = CheckItemService.class)
 @Transactional
 public class CheckItemServiceImpl implements CheckItemService {
-
     @Autowired
     private CheckItemDao checkItemDao;
 
@@ -33,6 +33,16 @@ public class CheckItemServiceImpl implements CheckItemService {
     @Override
     public void edit(CheckItem checkItem) {
         checkItemDao.edit(checkItem);
+    }
+
+    /**
+     * 通过检查项目id查询项目项目详情
+     * @param id
+     * @return
+     */
+    @Override
+    public CheckItem findById(Integer id) {
+        return checkItemDao.findById(id);
     }
 
     /**

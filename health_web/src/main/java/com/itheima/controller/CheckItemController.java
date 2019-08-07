@@ -3,12 +3,14 @@ package com.itheima.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.common.MessageConstant;
 import com.itheima.pojo.CheckItem;
-import com.itheima.pojo.PageResult;
-import com.itheima.pojo.QueryPageBean;
-import com.itheima.pojo.Result;
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
+import com.itheima.entity.Result;
 import com.itheima.service.CheckItemService;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -24,11 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/checkitem")
 public class CheckItemController {
 
+    private static final Logger log = Logger.getLogger(CheckItemController.class);
+
     @Reference
     private CheckItemService checkItemService;
 
     //新增
-    @RequestMapping("add")
+    @RequestMapping("/add")
     public Result add(@RequestBody CheckItem checkItem) {
         try {
             checkItemService.add(checkItem);
@@ -63,10 +67,28 @@ public class CheckItemController {
     @RequestMapping("/edit")
     public Result edit(@RequestBody CheckItem checkItem) {
         try {
+            log.debug("获取数据开始编辑");
+            log.debug(checkItem.getClass());
             checkItemService.edit(checkItem);
         } catch (Exception e) {
+            log.debug("编辑失败");
             return new Result(false, MessageConstant.EDIT_CHECKITEM_FAIL);
         }
         return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
+
+    @RequestMapping("/findById")
+    @ResponseBody
+    public Result findById(Integer id) {
+
+        try {
+            CheckItem checkItem = checkItemService.findById(id);
+            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItem);
+
+        } catch (Exception e) {
+            log.debug("未查找到详情");
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+
+        }
     }
 }

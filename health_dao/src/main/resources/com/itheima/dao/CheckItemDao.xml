@@ -11,7 +11,7 @@
     </insert>
 
     <!--编辑-->
-    <update id="edit">
+    <update id="edit" parameterType="com.itheima.pojo.CheckItem">
         UPDATE itcast_health.t_checkitem
         <set>
             <if test="name != null">
@@ -32,7 +32,7 @@
             <if test="type != null">
                 type = #{type},
             </if>
-            <if test="atention != null">
+            <if test="attention != null">
                 attention = #{attention},
             </if>
             <if test="remark != null">
@@ -62,9 +62,9 @@
         type,
         attention,
         remark
-        FROM itcast_health.t_checkitem;
+        FROM itcast_health.t_checkitem
         <if test="value != null and value.length > 0">
-            WHERE code = #{value} OR name = #{value}
+            WHERE code = #{value} OR name like concat(concat('%',#{value}),'%')
         </if>
     </select>
 
@@ -74,5 +74,15 @@
         FROM itcast_health.t_checkgroup_checkitem
         WHERE checkitem_id = #{checkitem_id};
     </select>
+
+    <!--通过检查项id查找详情-->
+    <select id="findById" resultType="com.itheima.pojo.CheckItem">
+        SELECT id, code, name, sex, age, price, type, attention, remark
+        FROM itcast_health.t_checkitem
+        WHERE id = #{id};
+
+    </select>
+
+    <!---->
 
 </mapper>

@@ -22,4 +22,6 @@ public interface CheckItemDao {
     void deleteById(Integer id);
 
     void edit(CheckItem checkItem);
+
+    CheckItem findById(Integer id);
 }

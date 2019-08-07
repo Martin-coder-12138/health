@@ -1,7 +1,7 @@
 package com.itheima.service;
 
+import com.itheima.entity.PageResult;
 import com.itheima.pojo.CheckItem;
-import com.itheima.pojo.PageResult;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,4 +21,6 @@ public interface CheckItemService {
     void delete(Integer id);
 
     void edit(CheckItem checkItem);
+
+    CheckItem findById(Integer id);
 }
