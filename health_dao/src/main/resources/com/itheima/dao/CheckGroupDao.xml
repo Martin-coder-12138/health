@@ -16,7 +16,7 @@
 
     <update id="setCheckGroupAndCheckItem">
         INSERT INTO itcast_health.t_checkgroup_checkitem (checkgroup_id, checkitem_id) VALUES
-        <foreach collection="list" item="checkitem_id" separator=",">
+        <foreach collection="checkitem_id" item="checkitem_id" separator=",">
             (#{checkgroup_id},#{checkitem_id})
         </foreach>
     </update>

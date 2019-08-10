@@ -1,6 +1,7 @@
 package com.itheima.dao;
 
 import com.itheima.pojo.CheckGroup;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,5 +15,5 @@ import com.itheima.pojo.CheckGroup;
 public interface CheckGroupDao {
     void addCheckGroup(CheckGroup checkGroup);
 
-    void setCheckGroupAndCheckItem(Integer id, Integer[] checkitemIds);
+    void setCheckGroupAndCheckItem(@Param("checkgroup_id") Integer id,@Param("checkitem_id") Integer[] checkitemIds);
 }

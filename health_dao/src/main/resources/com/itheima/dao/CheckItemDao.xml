@@ -85,7 +85,7 @@
 
     <!--查询所有的检查项信息-->
     <select id="findAll" resultType="com.itheima.pojo.CheckItem">
-        SELECT code,name,remark
+        SELECT id,code,name,remark
         FROM itcast_health.t_checkitem
     </select>
 

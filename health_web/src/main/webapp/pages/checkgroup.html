@@ -92,15 +92,15 @@
                             <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
-                                        <el-form ref="dataAddForm" label-position="right" label-width="100px" :rules = "rules">
+                                        <el-form  label-position="right" label-width="100px" >
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="编码" prop="code">
+                                                    <el-form-item label="编码">
                                                         <el-input v-model="formData.code"/>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="名称" prop="name">
+                                                    <el-form-item label="名称">
                                                         <el-input v-model="formData.name"/>
                                                     </el-form-item>
                                                 </el-col>
@@ -293,26 +293,19 @@
                     /*隐藏添加窗口*/
                     this.dialogFormVisible = false;
 
-                    /*表单校验*/
-                    this.$refs['dataAddForm'].validate((valid)=>{
-                        if (valid) {
-                            //表单校验成功
-                            axios.post("/checkgroup/add.do?checkitemIds=" + this.checkitemIds, this.formData).then((res) => {
-                                if (res.data.flag) {
-                                    this.$message.success(res.data.message);
-                                } else {
-                                    this.$message.error(res.data.message);
-                                }
-                            }).finally(() => {
-                                    //重新发送分页查询请求
-                                this.findPage();
-                                }
-                            );
+
+                    axios.post("/checkgroup/add.do?checkitemIds="+this.checkitemIds, this.formData).then((res) => {
+                        if (res.data.flag) {
+                            this.$message.success(res.data.message);
                         } else {
-                            //表单校验失败
-                            this.$message.error("表单校验失败")
+                            this.$message.error(res.data.message);
                         }
-                    })
+                    }).finally(() => {
+                        //重新发送分页查询请求
+                        this.findPage();
+                    });
+
+
 
                 },
                 //分页查询
