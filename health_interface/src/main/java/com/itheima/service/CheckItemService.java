@@ -3,6 +3,8 @@ package com.itheima.service;
 import com.itheima.entity.PageResult;
 import com.itheima.pojo.CheckItem;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -23,4 +25,6 @@ public interface CheckItemService {
     void edit(CheckItem checkItem);
 
     CheckItem findById(Integer id);
+
+    List<CheckItem> findAll();
 }

@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -33,6 +35,15 @@ public class CheckItemServiceImpl implements CheckItemService {
     @Override
     public void edit(CheckItem checkItem) {
         checkItemDao.edit(checkItem);
+    }
+
+    /**
+     * 查询所有检查项信息
+     * @return
+     */
+    @Override
+    public List<CheckItem> findAll() {
+        return checkItemDao.findAll();
     }
 
     /**

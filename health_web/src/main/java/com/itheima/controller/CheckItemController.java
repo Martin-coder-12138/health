@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -89,6 +91,18 @@ public class CheckItemController {
             log.debug("未查找到详情");
             return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
 
+        }
+    }
+
+    @RequestMapping("/findAll")
+    @ResponseBody
+    public Result findAll() {
+        try {
+            List<CheckItem> checkItems = checkItemService.findAll();
+            return Result.success(MessageConstant.QUERY_CHECKITEM_SUCCESS, checkItems);
+        } catch (Exception e) {
+            log.error("获取检查项信息失败");
+            return Result.fail(MessageConstant.QUERY_CHECKITEM_FAIL);
         }
     }
 }
