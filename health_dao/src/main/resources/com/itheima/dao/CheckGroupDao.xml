@@ -20,4 +20,67 @@
             (#{checkgroup_id},#{checkitem_id})
         </foreach>
     </update>
+    <update id="edit">
+        UPDATE itcast_health.t_checkgroup
+        <set>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="helpCode != null">
+                helpCode = #{helpCode},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+            WHERE id = #{id}
+    </update>
+
+
+    <delete id="removeCheckitemIdsByCheckGroupId">
+        DELETE
+        FROM itcast_health.t_checkgroup_checkitem
+        WHERE checkgroup_id = #{checkgroup_id}
+    </delete>
+    <delete id="removeByCheckgroupId">
+        DELETE
+        FROM itcast_health.t_checkgroup
+        WHERE id = #{checkgroupId};
+
+    </delete>
+
+
+    <select id="selectByCondition" resultType="com.itheima.pojo.CheckGroup">
+        SELECT id, code, name, helpCode, sex, remark, attention
+        FROM itcast_health.t_checkgroup
+        <where>
+            <if test="queryString != null and queryString.length > 0 ">
+                code=#{queryString} or name LIKE concat('%',#{queryString},'%') or helpCode = #{queryString}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findById" resultType="com.itheima.pojo.CheckGroup">
+        SELECT id, code, name, helpCode, sex, remark, attention
+        FROM itcast_health.t_checkgroup
+        WHERE id = #{checkGroupId}
+    </select>
+
+
+    <select id="findCheckitemByCheckgroupId" resultType="java.lang.Integer">
+        SELECT checkitem_id
+        FROM itcast_health.t_checkgroup_checkitem
+        WHERE checkgroup_id = #{CheckgroupId};
+
+    </select>
 </mapper>

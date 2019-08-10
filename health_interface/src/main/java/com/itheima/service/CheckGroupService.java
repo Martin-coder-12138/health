@@ -1,6 +1,9 @@
 package com.itheima.service;
 
+import com.itheima.entity.PageResult;
 import com.itheima.pojo.CheckGroup;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,4 +18,13 @@ public interface CheckGroupService {
 
     void add(CheckGroup checkGroup, Integer[] checkitemIds);
 
+    PageResult pageQuery(Integer currentPage, Integer pageSize, String queryString);
+
+    CheckGroup findById(Integer checkGroupId);
+
+    List<Integer> findCheckitemByCheckgroupId(Integer checkGroupId);
+
+    void edit(CheckGroup checkGroup, Integer[] checkitemIds);
+
+    void delete(Integer checkgroupId);
 }

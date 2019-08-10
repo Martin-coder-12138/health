@@ -332,7 +332,7 @@
                 // 删除
                 handleDelete(row) {
                     // alert(row.id);
-                    this.$confirm("确认选择当前选择记录吗?", "提示,", {type: 'warning'}).then(() => {
+                    this.$confirm("确认删除当前选择记录吗?", "提示,", {type: 'warning'}).then(() => {
                         //点击确定按钮时只需此处代码
                         //alert('用户点击的是确定按钮');
                         axios.get("/checkitem/delete.do?id=" + row.id).then((res) => {

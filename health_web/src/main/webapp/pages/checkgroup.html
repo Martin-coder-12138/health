@@ -287,6 +287,22 @@
             methods: {
                 //编辑
                 handleEdit() {
+                    /*表单校验*/
+                    /*隐藏编辑窗口*/
+                    this.dialogFormVisible4Edit = false;
+
+
+                    axios.post("/checkgroup/edit.do?checkitemIds="+this.checkitemIds, this.formData).then((res) => {
+                        if (res.data.flag) {
+                            this.$message.success(res.data.message);
+                        } else {
+                            this.$message.error(res.data.message);
+                        }
+                    }).finally(() => {
+                        //重新发送分页查询请求
+                        this.findPage();
+                    });
+
                 },
                 //添加
                 handleAdd() {
@@ -310,9 +326,26 @@
                 },
                 //分页查询
                 findPage() {
+                    //分页参数
+
+                    if (this.pagination.queryString != null && this.pagination.queryString.length >0 ) {
+                        this.pagination.currentPage = 1;
+                    }
+                    var param={
+                        currentPage: this.pagination.currentPage,
+                        pageSize: this.pagination.pageSize,
+                        queryString: this.pagination.queryString
+                    };
+                    //请求后台
+                    axios.post("/checkgroup/findPage.do", param).then((res) => {
+                        /*为数据模型赋值,基于双向绑定展示到页面*/
+                        this.dataList = res.data.rows;
+                        this.pagination.total = res.data.total;
+                    });
                 },
                 // 重置表单
                 resetForm() {
+                    this.tableData = [];
                 },
                 // 弹出添加窗口
                 handleCreate() {
@@ -335,12 +368,65 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    this.dialogFormVisible4Edit = true;
+                    //默认选中第一个标签页
+                    this.activeName = "first";
+                    //获取基本信息
+                    axios.get("/checkgroup/findById.do?checkGroupId=" + row.id).then((res)=>{
+                        if (res.data.flag) {
+                            this.formData = res.data.data;
+
+
+                            //获取所有检查项信息用于表单展示
+                            axios.get("/checkitem/findAll.do").then((res) => {
+                                if (res.data.flag) {
+                                    //将检查项列表信息赋给表单显示
+                                    this.tableData = res.data.data;
+
+                                    axios.get("/checkgroup/findCheckitemByCheckgroupId.do?checkGroupId=" + row.id).then((res) => {
+                                        if (res.data.flag) {
+                                            this.checkitemIds = res.data.data;
+                                        } else {
+                                            this.$message.error(res.data.message);
+                                        }
+                                    });
+                                } else {
+                                    this.$message.error(res.data.message);
+                                }
+                            });
+
+                        } else {
+                            this.$message.error("获取表单数据失败");
+                        }
+                    })
+
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    this.pagination.currentPage = currentPage;
+                    this.findPage();
                 },
                 // 删除
                 handleDelete(row) {
+                    // alert(row.id);
+                    this.$confirm("确认删除当前选择记录吗?", "提示,", {type: 'warning'}).then(() => {
+                        //点击确定按钮时只需此处代码
+                        //alert('用户点击的是确定按钮');
+                        axios.get("/checkgroup/delete.do?checkgroupId=" + row.id).then((res) => {
+                            if (!res.data.flag) {
+                                //删除失败
+                                this.$message.error(res.data.message);
+                            } else {
+                                //删除成功
+                                this.$message({
+                                    message: res.data.message,
+                                    type: 'success'
+                                });
+                                //调用分页,获取最新分页数据
+                                this.findPage();
+                            }
+                        });
+                    });
                 }
             }
         })
