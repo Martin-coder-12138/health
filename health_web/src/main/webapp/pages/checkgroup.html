@@ -92,15 +92,15 @@
                             <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
-                                        <el-form  label-position="right" label-width="100px" >
+                                        <el-form ref="dataAddForm" :rules="rules" :model="formData" label-position="right" label-width="100px" >
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="编码">
+                                                    <el-form-item label="编码" prop="code">
                                                         <el-input v-model="formData.code"/>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="名称">
+                                                    <el-form-item label="名称" prop="name">
                                                         <el-input v-model="formData.name"/>
                                                     </el-form-item>
                                                 </el-col>
@@ -176,16 +176,16 @@
                             <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
-                                        <el-form label-position="right" label-width="100px">
+                                        <el-form ref="dataEditForm" :model="formData" label-position="right" label-width="100px" :rules="rules">
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="编码">
-                                                        <el-input v-model="formData.code"/>
+                                                    <el-form-item label="编码" prop="code">
+                                                        <el-input v-model="formData.code"></el-input>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="名称">
-                                                        <el-input v-model="formData.name"/>
+                                                    <el-form-item label="名称" prop="name">
+                                                        <el-input v-model="formData.name"></el-input>
                                                     </el-form-item>
                                                 </el-col>
                                             </el-row>
@@ -287,7 +287,29 @@
             methods: {
                 //编辑
                 handleEdit() {
-                    /*表单校验*/
+                    //表单校验
+                    /*this.$refs['dataEditForm'].validate((valid)=>{
+                        if (valid) {
+                            //表单校验通过
+                            this.dialogFormVisible4Edit = false;
+
+
+                            axios.post("/checkgroup/edit.do?checkitemIds="+this.checkitemIds, this.formData).then((res) => {
+                                if (res.data.flag) {
+                                    this.$message.success(res.data.message);
+                                } else {
+                                    this.$message.error(res.data.message);
+                                }
+                            }).finally(() => {
+                                //重新发送分页查询请求
+                                this.findPage();
+                            });
+                        }else {
+                            //表单校验失败
+                            this.$message.error("表单校验失败");
+                            return false;
+                        }
+                    });*/
                     /*隐藏编辑窗口*/
                     this.dialogFormVisible4Edit = false;
 
@@ -308,8 +330,6 @@
                 handleAdd() {
                     /*隐藏添加窗口*/
                     this.dialogFormVisible = false;
-
-
                     axios.post("/checkgroup/add.do?checkitemIds="+this.checkitemIds, this.formData).then((res) => {
                         if (res.data.flag) {
                             this.$message.success(res.data.message);
@@ -345,7 +365,7 @@
                 },
                 // 重置表单
                 resetForm() {
-                    this.tableData = [];
+                    this.formData ={};
                 },
                 // 弹出添加窗口
                 handleCreate() {
@@ -356,7 +376,7 @@
                     //设置添加窗口显示属性为true
                     this.dialogFormVisible = true;
                     //查询所有检查项信息并显示在second页面
-                    this.tableData = [];
+                    this.checkitemIds = [];
                     axios.get("/checkitem/findAll.do").then((res) => {
                         if (res.data.flag) {
                             //将检查项列表信息赋给表单显示
