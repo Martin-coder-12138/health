@@ -27,4 +27,6 @@ public interface CheckGroupService {
     void edit(CheckGroup checkGroup, Integer[] checkitemIds);
 
     void delete(Integer checkgroupId);
+
+    List<CheckGroup> findAll();
 }

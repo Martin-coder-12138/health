@@ -97,6 +97,19 @@ public class CheckGroupController {
         }
     }
 
+    @RequestMapping("/findAll")
+    public Result findAll() {
+        try {
+            List<CheckGroup> checkGroups = checkGroupService.findAll();
+            return Result.success(MessageConstant.QUERY_CHECKGROUP_SUCCESS, checkGroups);
+        } catch (Exception e) {
+            LOGGER.error("findall查询检查组失败" + e);
+            return Result.fail(MessageConstant.QUERY_CHECKGROUP_FAIL);
+
+        }
+
+    }
+
 
 
 }

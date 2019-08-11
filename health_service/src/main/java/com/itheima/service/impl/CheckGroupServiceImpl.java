@@ -80,4 +80,8 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         return checkGroupDao.findCheckitemByCheckgroupId(checkGroupId);
     }
 
+    @Override
+    public List<CheckGroup> findAll() {
+        return checkGroupDao.findAll();
+    }
 }

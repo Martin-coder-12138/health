@@ -83,4 +83,8 @@
         WHERE checkgroup_id = #{CheckgroupId};
 
     </select>
+    <select id="findAll" resultType="com.itheima.pojo.CheckGroup">
+        SELECT id, code, name, attention
+        FROM itcast_health.t_checkgroup;
+    </select>
 </mapper>

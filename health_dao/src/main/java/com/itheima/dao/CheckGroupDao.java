@@ -32,4 +32,6 @@ public interface CheckGroupDao {
     void edit(CheckGroup checkGroup);
 
     void removeByCheckgroupId(Integer checkgroupId);
+
+    List<CheckGroup> findAll();
 }

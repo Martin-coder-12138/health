@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.SetmealDao">
+
+
+    <select id="pageQuery" resultType="com.itheima.pojo.Setmeal">
+        SELECT id, name, code, helpCode, sex, age, price, remark, attention, img
+        FROM itcast_health.t_setmeal
+        <where>
+            <if test="queryString != null and queryString.length >0">
+                /*编码/名称/助记码查询*/
+                code = #{queryString} or name like concat('%',#{queryString},'%') or helpcode = #{queryString}
+            </if>
+        </where>
+    </select>
+</mapper>

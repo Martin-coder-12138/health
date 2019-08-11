@@ -270,15 +270,45 @@
                 },
                 //分页查询
                 findPage() {
+                    var parm = {
+                        currentPage: this.pagination.currentPage,
+                        pageSize: this.pagination.pageSize,
+                        queryString: this.pagination.queryString
+                    }
+                    axios.post("/setmeal/findPage.do", parm).then((res) => {
+                        this.dataList = res.data.rows;
+                        this.pagination.total = res.data.total;
+                    });
                 },
                 // 重置表单
                 resetForm() {
+                    this.formData = {};
+                    /*设置默认显示基本信息页*/
+                    this.activeName = "first";
+                    /*数据初始化*/
+                    this.checkgroupIds = [];
+                    this.imageUrl = null;
+
                 },
                 // 弹出添加窗口
                 handleCreate() {
+                    /*显示弹出窗口*/
+                    this.dialogFormVisible = true;
+                    /*初始化表单数据*/
+                    this.resetForm();
+                    axios.get("/checkgroup/findAll.do").then((res)=>{
+                        if (res.data.flag) {
+                            this.tableData = res.data.data;
+                        } else {
+                            this.$message.error(res.data.message);
+                        }
+                    })
+
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    this.pagination.currentPage = currentPage;
+                    this.findPage();
                 }
             }
         })
