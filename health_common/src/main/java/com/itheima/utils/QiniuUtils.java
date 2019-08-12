@@ -18,9 +18,9 @@ import java.io.InputStream;
  */
 public class QiniuUtils {
 
-    public static final String accessKey="0MxFHk6rMBrjQSRHHJO9UXzPbHrP_lUan_BHOLik";
-    public static final String secretKey="Xiaba78bupGjFg28rMij7zh1puJP5YJRfk5nNF3_";
-    public static final String bucket="qiniutest";
+    public static final String accessKey="r5XLBYlEYZH4BcFxTBU0CDMVRsRtFRhLZ29bx4l5";
+    public static final String secretKey="xT_1_M-4-DGOaadbx7EIrVNihGcTPGDCkfpUpj9V";
+    public static final String bucket="itheima_health";
 
     public static void upload2Qiniu(String filePath,String fileName){
         //构造一个带指定Zone对象的配置类

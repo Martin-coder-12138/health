@@ -1,6 +1,7 @@
 package com.itheima.service;
 
 import com.itheima.entity.PageResult;
+import com.itheima.pojo.Setmeal;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,4 +14,6 @@ import com.itheima.entity.PageResult;
  */
 public interface SetmealService {
     PageResult pageQuery(Integer currentPage, Integer pageSize, String queryString);
+
+    void add(Setmeal setmeal, Integer[] checkgroupIds);
 }

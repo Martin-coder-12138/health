@@ -4,6 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itheima.dao.SetmealDao">
 
+    <insert id="add">
+        INSERT INTO itcast_health.t_setmeal (name, code, helpCode, sex, age, price, remark, attention, img)
+        VALUES (#{name}, #{code}, #{helpCode}, #{sex}, #{age}, #{price}, #{remark}, #{attention}, #{img});
+        <selectKey keyColumn="id" resultType="integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+
+    <insert id="setCheckgroupIdsBySetmealId">
+        INSERT INTO itcast_health.t_setmeal_checkgroup (setmeal_id, checkgroup_id)
+        VALUES
+        <foreach collection="checkgroupIds" separator="," item="checkgroup_id">
+            (#{setmealId},#{checkgroup_id})
+        </foreach>
+
+    </insert>
+
 
     <select id="pageQuery" resultType="com.itheima.pojo.Setmeal">
         SELECT id, name, code, helpCode, sex, age, price, remark, attention, img

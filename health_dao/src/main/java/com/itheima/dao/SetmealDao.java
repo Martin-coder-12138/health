@@ -15,4 +15,8 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface SetmealDao {
     public Page<Setmeal> pageQuery(@Param("queryString") String queryString);
+
+    void add(Setmeal setmeal);
+
+    void setCheckgroupIdsBySetmealId(@Param("setmealId") Integer setmealId,@Param("checkgroupIds") Integer[] checkgroupIds);
 }

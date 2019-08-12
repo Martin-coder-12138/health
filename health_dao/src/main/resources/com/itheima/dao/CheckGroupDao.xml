@@ -84,7 +84,7 @@
 
     </select>
     <select id="findAll" resultType="com.itheima.pojo.CheckGroup">
-        SELECT id, code, name, attention
+        SELECT id, code, name, remark
         FROM itcast_health.t_checkgroup;
     </select>
 </mapper>
