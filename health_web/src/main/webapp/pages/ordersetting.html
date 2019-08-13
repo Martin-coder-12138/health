@@ -145,32 +145,47 @@
         },
         methods: {
             //预约设置
-            handleOrderSet(day) {
-                this.$prompt('请输入可预约人数', '预约设置', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    inputPattern: /^[0-9]*[1-9][0-9]*$/,
-                    inputErrorMessage: '只能输入正整数'
-                }).then(({value}) => {
-                    //发送ajax请求根据日期修改可预约人数
-                    axios.post("/ordersetting/editNumberBayDate.do", {
-                        orderDate: this.formData(day.getFullYear(), day.getMonth() + 1, day.getDate()),//日期
-                        number: value //可预约人数
-                    }).then((response) => {
-                        if (response.data.flag) {
-                            this.initData(this.formData(day.getFullYear(), day.getMonth() + 1, 1));
-                            this.$message({
-                                type: 'success',
-                                message: response.data.message
-                            });
-                        } else {
-                            this.$message.error(response.data.message);
+            handleOrderSet(day)
+
+            {
+
+                this.$prompt('请输入预约人数', '提示', {
+                    confirmButtonText: '确定',//定义确定按钮
+                    cancelButtonText: '取消',//青叶取消按钮
+                    inputPattern: /^[0-9]*[1-9][0-9]*/,//输入值校验 1 10 111
+                    inputErrorMessage: '预约人数只能为数字'
+                }).then(({ value }) => {
+                    //点击 确定按钮 调用then方法
+
+                    //日期   day
+                    // number可预约人数
+
+                    //发送ajax 请求 将预约人数设置 保存到数据库
+
+                    axios.post("/ordersetting/editNumberByDate.do",{
+                        orderDate:this.formatDate(day.getFullYear(),day.getMonth()+1,day.getDate()),
+                        number:value
+                    }).then((res)=>{
+                        //判断保存成功还是失败
+
+                        if(res.data.flag){
+                            //修改数据成功 提示用户 刷新页面
+
+                            //1.提示用户
+                            this.$message.success(res.data.message);
+
+                            //2.刷新页面
+                            this.initData(this.formatDate(day.getFullYear(),day.getMonth()+1,1));
+                        }else {
+                            //.提示用户
+                            this.$message.error(res.data.message);
                         }
                     });
                 }).catch(() => {
+                    //点击 取消按钮调用 该方法
                     this.$message({
                         type: 'info',
-                        message: '已取消'
+                        message: '取消输入'
                     });
                 });
 

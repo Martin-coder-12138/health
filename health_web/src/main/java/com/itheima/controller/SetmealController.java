@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.JedisPool;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -87,4 +88,48 @@ public class SetmealController {
         }
     }
 
+    @RequestMapping("queryById")
+    public Result queryById(@RequestParam("setmealId") Integer setmealId) {
+        try {
+            Setmeal setmeal = setmealService.queryById(setmealId);
+            return Result.success(MessageConstant.QUERY_SETMEAL_SUCCESS, setmeal);
+        } catch (Exception e) {
+            logger.error("query setmeal By Id error");
+            return Result.fail(MessageConstant.QUERY_SETMEAL_FAIL);
+        }
+
+    }
+
+    @RequestMapping("/findCheckGroupById")
+    public Result findCheckGroupById(Integer setmealId) {
+        try {
+            List<Integer> checkGroupIds = setmealService.findCheckGroupById(setmealId);
+            return Result.success(MessageConstant.QUERY_SETMEAL_SUCCESS, checkGroupIds);
+        } catch (Exception e) {
+            logger.error("find CheckGroup By Id fail" + e);
+            return Result.fail(MessageConstant.QUERY_SETMEAL_FAIL);
+        }
+    }
+
+    @RequestMapping("/edit")
+    public Result edit( @RequestBody Setmeal setmeal,Integer[] checkgroupIds)  {
+        try {
+            setmealService.edit(setmeal, checkgroupIds);
+            return Result.success(MessageConstant.EDIT_SETMEAL_SUCCESS);
+        } catch (Exception e) {
+            logger.error("edit error");
+            return Result.fail(MessageConstant.EDIT_SETMEAL_FAIL);
+        }
+    }
+
+    @RequestMapping("/delete")
+    public Result delete(Integer setmealId) {
+        try {
+            setmealService.delete(setmealId);
+            return Result.success(MessageConstant.DELETE_SETMEAL_SUCCESS);
+        } catch (Exception e) {
+            logger.error("delete setmeal fail" + e);
+            return Result.fail(MessageConstant.DELETE_SETMEAL_FAIL);
+        }
+    }
 }

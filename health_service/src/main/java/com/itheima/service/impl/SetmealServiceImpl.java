@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.JedisPool;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -64,5 +66,41 @@ public class SetmealServiceImpl implements SetmealService {
 
     private void setCheckgroupIdsBySetmealId(Integer setmealId, Integer[] checkgroupIds) {
         setmealDao.setCheckgroupIdsBySetmealId(setmealId, checkgroupIds);
+    }
+
+    @Override
+    public Setmeal queryById(Integer setmealId) {
+       return setmealDao.queryById(setmealId);
+    }
+
+    @Override
+    public List<Integer> findCheckGroupById(Integer setmealId) {
+        return setmealDao.findCheckGroupById(setmealId);
+    }
+
+    @Override
+    public void edit(Setmeal setmeal, Integer[] checkgroupIds) {
+        //删除套餐过期检查组数据
+        removeCheckGroupsByID(setmeal.getId());
+        //更新套餐基本数据
+        updateById(setmeal);
+        //更新检查组数据
+        setCheckgroupIdsBySetmealId(setmeal.getId(), checkgroupIds);
+    }
+
+
+    private void updateById(Setmeal setmeal) {
+        setmealDao.updateById(setmeal);
+    }
+
+    private void removeCheckGroupsByID(Integer setmealId) {
+        setmealDao.removeCheckGroupsByID(setmealId);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        //删除套餐过期检查组数据
+        removeCheckGroupsByID(id);
+        setmealDao.delete(id);
     }
 }

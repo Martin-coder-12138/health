@@ -36,7 +36,7 @@ public class OrderSettingController {
 
     private static final Logger LOGGER = Logger.getLogger(OrderSettingController.class);
 
-    @RequestMapping("/update")
+    @RequestMapping("/upload")
     public Result upload(@RequestParam("excelFile") MultipartFile excelFile) {
         try {
             //读取Excel文件
@@ -47,6 +47,7 @@ public class OrderSettingController {
                     OrderSetting orderSetting = new OrderSetting(new Date(strings[0]), Integer.parseInt(strings[1]));
                     orderSettingList.add(orderSetting);
                 }
+
                 orderSettingService.add(orderSettingList);
             }
 
@@ -69,7 +70,7 @@ public class OrderSettingController {
         }
     }
 
-    @RequestMapping("/editNumberBayDate")
+    @RequestMapping("/editNumberByDate")
     public Result editNumberBayDate(@RequestBody OrderSetting orderSetting) {
         try {
             orderSettingService.editNumberBayDate(orderSetting);

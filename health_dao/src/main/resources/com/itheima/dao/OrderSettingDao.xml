@@ -7,8 +7,8 @@
     <!--新增-->
     <insert id="add">
         INSERT into itcast_health.t_ordersetting
-            (orderDate, number, reservations)
-        VALUES (#{orderDate}, #{number}, #{reservations})
+            (orderDate, number)
+        VALUES (#{orderDate}, #{number})
     </insert>
 
     <!--根据日期更新预约人数-->

@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.itheima.pojo.Setmeal;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -19,4 +21,15 @@ public interface SetmealDao {
     void add(Setmeal setmeal);
 
     void setCheckgroupIdsBySetmealId(@Param("setmealId") Integer setmealId,@Param("checkgroupIds") Integer[] checkgroupIds);
+
+    Setmeal queryById(@Param("setmealId") Integer setmealId);
+
+    List<Integer> findCheckGroupById(@Param("setmealId") Integer setmealId);
+
+    void removeCheckGroupsByID(Integer setmealId);
+
+
+    void updateById(Setmeal setmeal);
+
+    void delete(Integer id);
 }

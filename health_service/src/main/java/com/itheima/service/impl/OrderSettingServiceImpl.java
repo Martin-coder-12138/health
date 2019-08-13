@@ -37,7 +37,7 @@ public class OrderSettingServiceImpl implements OrderSettingService {
     @Override
     public List<Map> getOrderSettingByMonth(String date) {
         String dateBegin = date + "-1";
-        String dateEnd = date + "31";
+        String dateEnd = date + "-31";
         Map map = new HashMap();
         map.put("dateBegin", dateBegin);
         map.put("dateEnd", dateEnd);
